@@ -22,8 +22,18 @@ app.get('/puki', (req, res) => {
 
 // Get (all) Bugs (READ)
 app.get('/api/bug', (req, res) => {
+    const filterBy = {
+        txt: req.query.txt || '',
+        severity: req.query.severity || 0,
+        label: req.query.label || '',
+        pageIdx: req.query.pageIdx,
+        sortBy: req.query.sortBy || '',
+        sortDir: req.query.sortDir || 1
 
-    bugService.query()
+    }
+
+console.log(filterBy)
+    bugService.query(filterBy)
         .then(bugs => {
             res.send(bugs)
         })
@@ -46,7 +56,7 @@ app.get('/api/bug/:id', (req, res) => {
  
 
 // Add Bug
-app.post('/api/bug/', (req, res) => {
+app.post('/api/bug', (req, res) => {
     const bugToSave = {
         title: req.body.title,
         description: req.body.description,
@@ -65,7 +75,7 @@ app.post('/api/bug/', (req, res) => {
 
 // Edit/Update Bug
 
-app.put('/api/bug/', (req, res) => {
+app.put('/api/bug', (req, res) => {
     const bugToSave = {
         title: req.body.title,
         description: req.body.description,

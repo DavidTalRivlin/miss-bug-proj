@@ -3,19 +3,19 @@ import { utilService } from './util.service.js'
 
 
 
-const BASE_URL = '/api/bug/'
-// _createBugs()
+const BASE_URL = '/api/bug'
 
 export const bugService = {
     query,
     get,
     save,
     remove,
+    getDefaultFilter
 }
 
 
-function query() {
-    return axios.get(BASE_URL).then(res => res.data)
+function query(filterBy, sortBy = 'severity', sortDir = 1) {
+    return axios.get(BASE_URL, { params: { ...filterBy, sortBy, sortDir } }).then(res => res.data)
 }
 
 function get(bugId) {
@@ -36,7 +36,10 @@ function save(bug) {
 }
 
 
-
+function getDefaultFilter() {
+    return { txt: '', severity: '', label:'', createdAt: '' ,pageIdx: 0 }
+    
+}
 
 
 
