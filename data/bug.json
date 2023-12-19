@@ -1,19 +1,22 @@
 [
   {
-    "_id": "jorf5",
-    "title": "ppp",
-    "description": "yfcyc",
-    "severity": 3,
-    "createdAt": 1702937221931,
-    "label": "['critical', 'need-CR', 'dev-branch']"
+    "title": "123123123",
+    "description": "123123",
+    "severity": 123123123,
+    "createdAt": 1703013288808,
+    "_id": "jIOfm"
   },
   {
-    "_id": "oMXkf",
-    "title": "asdfasdf",
-    "description": "asdfsdf",
-    "severity": "1",
-    "createdAt": 1702936960361,
-    "label": "['critical', 'need-CR', 'dev-branch']"
+    "title": "dragon-fly",
+    "description": "whaa whaa",
+    "severity": "8",
+    "label": [
+      "critical",
+      "need-CR",
+      "dev-branch"
+    ],
+    "createdAt": 1703009446570,
+    "_id": "a2mFN"
   },
   {
     "_id": "aO7vG",
@@ -21,7 +24,11 @@
     "description": "bumble yellow bee",
     "severity": "8",
     "createdAt": 1702925808419,
-    "label": "['critical', 'need-CR', 'dev-branch']"
+    "label": [
+      "critical",
+      "need-CR",
+      "dev-branch"
+    ]
   },
   {
     "_id": "hDdXi",
@@ -29,6 +36,10 @@
     "description": "with7dots",
     "severity": "8",
     "createdAt": 1702926132395,
-    "label": "['critical', 'need-CR', 'dev-branch']"
+    "label": [
+      "critical",
+      "need-CR",
+      "dev-branch"
+    ]
   }
 ]
