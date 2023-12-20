@@ -1,5 +1,6 @@
 import fs from 'fs'
-import { utilService } from "./utils.service.js";
+import { utilService } from './util.service.js'
+import { loggerService } from './logger.service.js'
 
 
 export const bugService = {
@@ -8,9 +9,9 @@ export const bugService = {
     getById,
     remove,
     save
-    
+
 }
-const PAGE_SIZE = 3
+const PAGE_SIZE = 4
 
 const bugs = utilService.readJsonFile('data/bug.json')
 
@@ -18,7 +19,7 @@ const bugs = utilService.readJsonFile('data/bug.json')
 
 function query(filterBy, sortBy, sortDir) {
     let bugsToReturn = bugs
-    
+
     if (filterBy.txt) {
         const regExp = new RegExp(filterBy.txt, 'i')
         bugsToReturn = bugsToReturn.filter(bug => regExp.test(bug.description) || regExp.test(bug.title))
@@ -55,18 +56,32 @@ function getById(bugId) {
     return Promise.resolve(bug)
 }
 
-function remove(bugId) {
-    const bugIdx = bugs.findIndex(bug => bug._id === bugId)
-    bugs.splice(bugIdx, 1)
+function remove(bugId,loggedinUser) {
+    const idx = bugs.findIndex(bug => bug._id === bugId)
+    if (idx === -1) return Promise.reject('No Such bug')
+    const bug = bugs[idx]
+    if (!loggedinUser.isAdmin &&
+        bug.creator._id !== loggedinUser._id) {
+        return Promise.reject('Not your bug')
+    }
+    bugs.splice(idx, 1)
     return _saveBugsToFile()
 }
 
-function save(bug) {
+function save(bug, loggedinUser) {
     if (bug._id) {
-        const bugIdx = bugs.findIndex(currBug => currBug._id === bug._id)
-        bugs[bugIdx] = bug
+        const bugToUpdate = bugs.find(currBug => currBug._id === bug._id)
+        if (!loggedinUser.isAdmin &&
+            bugToUpdate.creator._id !== loggedinUser._id) {
+            return Promise.reject('Not your bug')
+        }
+        bugToUpdate.severity = bug.severity
+        bugToUpdate.title = bug.title
+        bugToUpdate.description = bug.description
+
     } else {
         bug._id = utilService.makeId()
+        bug.creator = loggedinUser
         bugs.unshift(bug)
     }
 

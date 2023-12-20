@@ -3,6 +3,7 @@ import { showSuccessMsg, showErrorMsg } from '../services/event-bus.service.js'
 import { BugList } from '../cmps/BugList.jsx'
 import { BugFilter } from '../cmps/BugFilter.jsx'
 import { utilService } from '../services/util.service.js'
+import { userService } from '../services/user.service.js'
 
 const { useState, useEffect, useRef } = React
 
@@ -46,10 +47,12 @@ export function BugIndex() {
         const bug = {
             title: prompt('Bug title?'),
             severity: +prompt('Bug severity?'),
-            description: prompt('bug describtion?')
+            description: prompt('bug describtion?'),
+            creator: userService.getLoggedinUser()
+
+
         }
-        bugService
-            .save(bug)
+        bugService.save(bug)
             .then((savedBug) => {
                 console.log('Added Bug', savedBug)
                 setBugs([...bugs, savedBug])
@@ -63,7 +66,8 @@ export function BugIndex() {
 
     function onEditBug(bug) {
         const severity = +prompt('New severity?')
-        const bugToSave = { ...bug, severity }
+        const title = prompt('Bug title?')
+        const bugToSave = { ...bug, severity, title }
         bugService
             .save(bugToSave)
             .then((savedBug) => {

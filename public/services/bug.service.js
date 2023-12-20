@@ -19,29 +19,23 @@ function query(filterBy, sortBy = 'severity', sortDir = 1) {
 }
 
 function get(bugId) {
-    return axios.get(BASE_URL + bugId).then(res => res.data)
+    return axios.get(BASE_URL +'/'+ bugId).then(res => res.data)
 }
 
 function remove(bugId) {
-    return axios.delete(BASE_URL + bugId).then(res => res.data)
+    return axios.delete(BASE_URL +'/' + bugId).then(res => res.data)
 }
 
 function save(bug) {
       
-    if (bug._id) {
-        return axios.put(BASE_URL, bug).then(res => res.data)
-    } else {
-        return axios.post(BASE_URL, bug).then(res => res.data)
-    }
+    const method = bug._id ? 'put' : 'post'
+    return axios[method](BASE_URL, bug).then(res => res.data)
 }
-
 
 function getDefaultFilter() {
     return { txt: '', severity: '', label:'', createdAt: '' ,pageIdx: 0 }
     
 }
-
-
 
 function _createBugs() {
     let bugs = utilService.loadFromStorage(STORAGE_KEY)
